@@ -103,46 +103,63 @@
             right: 5px;
             font-size: 24px;
         }
-        .ranking-section {
+        .ranking-dropdown {
             position: fixed;
             top: 20px;
             left: 20px;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            max-width: 400px;
             z-index: 1000;
         }
-        .ranking-section h2 {
+        .ranking-btn {
+            background-color: #46178f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .ranking-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.95);
+            min-width: 250px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: left;
+        }
+        .ranking-content.show {
+            display: block;
+        }
+        .ranking-content h2 {
             margin-top: 0;
             color: #46178f;
             border-bottom: 2px solid #46178f;
             padding-bottom: 10px;
         }
-        .ranking-section ol {
+        .ranking-content ol {
             padding-left: 0;
             margin-bottom: 0;
             list-style-type: none;
         }
-        .ranking-section li {
+        .ranking-content li {
             margin-bottom: 10px;
             font-size: 16px;
             background-color: #f0f0f0;
             padding: 10px;
             border-radius: 5px;
         }
-        .ranking-section .rank {
+        .ranking-content .rank {
             font-weight: bold;
             color: #e21b3c;
             margin-right: 10px;
         }
-        .ranking-section .student-name {
-            color: #ffd700;
+        .ranking-content .student-name {
+            color: #46178f;
             font-weight: bold;
         }
-        .ranking-section .score {
+        .ranking-content .score {
             float: right;
             font-weight: bold;
             color: #1368ce;
@@ -171,9 +188,12 @@
 </head>
 <body>
     <h1>NWCSS 2024-2025 Class 1A</h1>
-    <div class="ranking-section">
-        <h2>Top 5 Students</h2>
-        <ol id="top-students"></ol>
+    <div class="ranking-dropdown">
+        <button class="ranking-btn" onclick="toggleRanking()">Show Top 5 Students</button>
+        <div class="ranking-content" id="ranking-dropdown">
+            <h2>Top 5 Students</h2>
+            <ol id="top-students"></ol>
+        </div>
     </div>
     <div id="counters-container"></div>
 
@@ -184,6 +204,7 @@
             "Lin Yin Pok", "Lo Chun Kit", "Ma Tsz Chiu, Evan", "Mak Pui Yi, Perley", "Ng Tsz Chun", "Ng Yuk Yui", "Song Changyu Jim", "Wong Ho Cheung",
             "Wong Yu Hin", "Wong Yu Suen", "Wong Yu Sze, Thomas", "Yan Tsz Hin", "Yeung Ching Ching", "Yu Jin Hao, San", "Zheng BaiQian", "Mr. Pak"
         ];
+
 
         function createCounter(name, index) {
             const container = document.createElement('div');
@@ -310,6 +331,23 @@
                     <span class="score">${student.score}</span>
                 </li>`
             ).join('');
+        }
+
+        function toggleRanking() {
+            const dropdown = document.getElementById('ranking-dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.ranking-btn')) {
+                const dropdowns = document.getElementsByClassName("ranking-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
         }
 
         window.onload = function() {
